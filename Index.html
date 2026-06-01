@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you love me? 💖</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #d63384;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .gif-container img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            min-height: 100px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+        #yesBtn {
+            background-color: #28a745;
+            color: white;
+        }
+        #noBtn {
+            background-color: #dc3545;
+            color: white;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <h1 id="question">Do you love me? 💖</h1>
+        <div class="gif-container">
+            <!-- Gambar default (kucing gemas) -->
+            <img id="gifImage" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Nndnd1ZXN0cXd3cm95ZXBsZ3B4Y29sa3RndWV2N3Y3ZXFmZzNoZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cZ7rmKfFYOv6A5InwK/giphy.gif" alt="Cute Cat">
+        </div>
+        <div class="buttons">
+            <button id="yesBtn" onclick="selectYes()">Yes</button>
+            <button id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
+        </div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const gifImage = document.getElementById('gifImage');
+        const question = document.getElementById('question');
+
+        // Daftar teks tombol 'No' yang berubah tiap kali di-hover/klik (Bahasa Inggris)
+        const noTexts = [
+            "Are you sure? 🥺",
+            "Pookie please... 😢",
+            "Don't do this to me... 😭",
+            "If you say no, I will be sad 💔",
+            "Last chance! Type 'Yes' 😜"
+        ];
+
+        // Daftar GIF ekspresi sedih
+        const sadGifs = [
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbms1M2t6Z2t2bXpxYzh6bXpjdXptNWhwczFkNzV0Nm9wZGd4eXAwdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/7SF5scGB2AFr1hFJvE/giphy.gif",
+            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp0Zmtid3NidTJ4N3Z0bXN4ZHp6bXRna3pqZ3Y0dXZoNWhwczFkNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/gPDVmKmKpgm2Y/giphy.gif"
+        ];
+
+        function moveNoButton() {
+            // 1. Membuat tombol YES semakin membesar
+            let currentYesSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentYesSize + 8) + 'px';
+            yesBtn.style.padding = (parseFloat(window.getComputedStyle(yesBtn).paddingTop) + 4) + 'px ' + (parseFloat(window.getComputedStyle(yesBtn).paddingLeft) + 8) + 'px';
+
+            // 2. Mengubah teks tombol NO secara berurutan
+            if (noClickCount < noTexts.length) {
+                noBtn.innerText = noTexts[noClickCount];
+                // Ganti gif jadi sedih
+                gifImage.src = sadGifs[noClickCount % sadGifs.length];
+            }
+
+            // 3. Membuat tombol NO berpindah tempat acak
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+
+            noClickCount++;
+        }
+
+        function selectYes() {
+            // Tampilan akhir ketika dia klik 'Yes'
+            document.getElementById('mainContainer').innerHTML = `
+                <h1 style="color: #e91e63;">Knew you would say yes! 🥰❤️</h1>
+                <div class="gif-container">
+                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHI0Z3U1ZXN0NXd0cmZzN3R6M3RtM3Nndnd1ZXN0cXd3cm95ZXBsZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/KztT2c4Y8m7xcNEYKp/giphy.gif" style="width:200px; height:200px;">
+                </div>
+                <p style="font-size: 18px; color: #555; font-weight: bold;">You just made me the happiest person! 💖</p>
+            `;
+        }
+    </script>
+</body>
+</html>
